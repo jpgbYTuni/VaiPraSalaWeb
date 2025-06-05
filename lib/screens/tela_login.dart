@@ -4,8 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/login_button.dart';
 import '../widgets/login_button_infra.dart';
-import 'tela_ensalamento.dart';
-import 'tela_infra.dart';
+import './tela_admim.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
@@ -65,28 +64,21 @@ class _TelaLoginState extends State<TelaLogin> {
           await _salvarNome(nomeBanco); // Infra sempre usa o nome do banco
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Telainfra()),
+            MaterialPageRoute(builder: (context) => const TelaAdmim()),
           );
         } else {
           _mostrarErro("Código inválido para login Infra.");
         }
       } else {
-        if (tipo == 'Aluno') {
+        if (tipo == 'Coordenação') {
           final nomeFinal = nome.isNotEmpty ? nome : nomeBanco;
           await _salvarNome(nomeFinal);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const TelaEnsalamento()),
-          );
-        } else if (tipo == 'Professor') {
-          // Professor sempre usa nome do banco
-          await _salvarNome(nomeBanco);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const TelaEnsalamento()),
+            MaterialPageRoute(builder: (context) => const TelaAdmim()),
           );
         } else {
-          _mostrarErro("Código não permitido nesta tela.");
+          _mostrarErro("Código não permitido na tela Admim.");
         }
       }
     } catch (e) {
@@ -139,6 +131,16 @@ class _TelaLoginState extends State<TelaLogin> {
                     width: 350,
                   ),
                 ),
+                Text(
+                  modoInfra ? 'INFRA' : 'ADMIM',
+                  style: TextStyle(
+                    color: modoInfra
+                        ? const Color(0xff51703C)
+                        : const Color(0xffe7972a),
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 40),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -171,9 +173,7 @@ class _TelaLoginState extends State<TelaLogin> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                               child: CustomTextField(
-                                label: modoInfra
-                                    ? 'Nome (Obrigatório)'
-                                    : 'Nome (Opcional)',
+                                label: 'RA',
                                 isNumeric: false,
                                 controller: nomeController,
                               ),
@@ -226,8 +226,8 @@ class _TelaLoginState extends State<TelaLogin> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ButtonInfra(
-                text: modoInfra ? 'Voltar' : 'Infra',
-                buttonWidth: 100,
+                text: modoInfra ? 'Voltar pra cordenação' : 'ir pro Infra',
+                buttonWidth: 200,
                 buttonHeight: 30,
                 buttonColor: botaoInfra,
                 onPressed: _alternarModoInfra,
