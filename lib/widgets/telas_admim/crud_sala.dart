@@ -9,7 +9,7 @@ class CrudSala extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Sala'),
+      TituloTela(texto: 'Salas', actions: CardSala()),
       Center(
         child: Column(
           children: [

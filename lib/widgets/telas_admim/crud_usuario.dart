@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import './titulo_tela.dart';
+import './card_sala.dart';
 
 class CrudUsuario extends StatelessWidget {
   const CrudUsuario({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
+    return Expanded(
+        child: Stack(children: [
+      TituloTela(texto: 'Usuarios', actions: CardSala(),),
       Center(
-          child: Column(children: [
-        Text(
-          'CrudUsuario',
-          style: TextStyle(
-            color: const Color(0xffe7972a),
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          children: [
+            const SizedBox(height: 60),
+          ],
         ),
-      ]))
-    ]);
+      ),
+    ]));
   }
 }

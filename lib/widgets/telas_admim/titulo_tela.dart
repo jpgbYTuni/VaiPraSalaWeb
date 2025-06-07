@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:vaiprasala/widgets/telas_admim/card_sala.dart';
 
 class TituloTela extends StatelessWidget {
   final String texto;
+  final dynamic actions;
 
-  const TituloTela({super.key, required this.texto});
+  const TituloTela({super.key, required this.texto, required this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class TituloTela extends StatelessWidget {
                   barrierDismissible: false,
                   builder: (context) => AlertDialog(
                         actions: [
-                          CardSala()
+                          actions,
                         ],
                       ));
             },

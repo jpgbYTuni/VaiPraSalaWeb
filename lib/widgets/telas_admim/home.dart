@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import './titulo_tela.dart';
+import './card_sala.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
+    return Expanded(
+        child: Stack(children: [
+      TituloTela(texto: 'Sala', actions: CardSala(),),
       Center(
-          child: Column(children: [
-        Text(
-          'Home',
-          style: TextStyle(
-            color: const Color(0xffe7972a),
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          children: [
+            const SizedBox(height: 60),
+          ],
         ),
-      ]))
-    ]);
+      ),
+    ]));
   }
 }
