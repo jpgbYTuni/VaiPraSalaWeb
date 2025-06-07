@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaiprasala/widgets/telas_admim/card_sala.dart';
 
 class TituloTela extends StatelessWidget {
   final String texto;
@@ -24,13 +25,8 @@ class TituloTela extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                        title: Text('Popup'),
-                        content: Text('Você clicou no botão.'),
                         actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Fechar'),
-                          ),
+                          CardSala()
                         ],
                       ));
             },

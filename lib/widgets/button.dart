@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ButtonLogin extends StatelessWidget {
+class Button extends StatelessWidget {
   final String text;
   final double buttonWidth;
   final double buttonHeight;
   final VoidCallback onPressed;
   final Color buttonColor;
 
-  const ButtonLogin({
+  const Button({
     super.key,
     required this.text,
     required this.buttonWidth,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../widgets/custom_text_field.dart';
-import '../widgets/login_button.dart';
+import '../widgets/button.dart';
 import '../widgets/login_button_infra.dart';
 import './tela_admim.dart';
 
@@ -188,7 +188,7 @@ class _TelaLoginState extends State<TelaLogin> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16),
-                              child: ButtonLogin(
+                              child: Button(
                                 text: 'Login',
                                 buttonWidth: 100,
                                 buttonHeight: 30,
