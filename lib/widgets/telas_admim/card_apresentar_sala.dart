@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../button.dart';
 
-class CardSala extends StatefulWidget {
-  const CardSala({super.key});
+class CardApresentarSala extends StatefulWidget {
+  const CardApresentarSala({super.key});
   @override
-  _CardSalaState createState() => _CardSalaState();
+  _CardApresentarSalaState createState() => _CardApresentarSalaState();
 }
 
-class _CardSalaState extends State<CardSala> {
+class _CardApresentarSalaState extends State<CardApresentarSala> {
   bool _projetor = false;
   bool _projetorProblema = false;
   bool _tv = false;
@@ -405,9 +404,7 @@ class _CardSalaState extends State<CardSala> {
                             thumbIcon: switchIco,
                             value: _ar,
                             onChanged: (bool valor) {
-                              setState(() {
-                                _ar = !_ar;
-                              });
+                              AlertDialog(title: Text('edição negada'),);
                             },
                             inactiveThumbColor: const Color(0xffe7972a),
                             inactiveTrackColor: Colors.black26,
@@ -438,9 +435,7 @@ class _CardSalaState extends State<CardSala> {
                                   thumbIcon: switchIcoErro,
                                   value: _arProblema,
                                   onChanged: (bool valor) {
-                                    setState(() {
-                                      _arProblema = !_arProblema;
-                                    });
+                                    AlertDialog(title: Text('edição negada'),);
                                   },
                                   inactiveThumbColor: Colors.white,
                                   inactiveTrackColor: Colors.black26,
@@ -480,9 +475,7 @@ class _CardSalaState extends State<CardSala> {
                                   thumbIcon: switchIcoErro,
                                   value: _inspecaoProblema,
                                   onChanged: (bool valor) {
-                                    setState(() {
-                                      _inspecaoProblema = !_inspecaoProblema;
-                                    });
+                                    AlertDialog(title: Text('edição negada'),);
                                   },
                                   inactiveThumbColor: Colors.white,
                                   inactiveTrackColor: Colors.black26,
@@ -494,38 +487,6 @@ class _CardSalaState extends State<CardSala> {
                       ),
                     ),
                   ],
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Button(
-                            text: 'Excluir',
-                            buttonWidth: 100,
-                            buttonHeight: 30,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            buttonColor: Colors.white),
-                        Button(
-                            text: 'Editar',
-                            buttonWidth: 100,
-                            buttonHeight: 30,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            buttonColor: Colors.white),
-                        Button(
-                            text: 'Salvar',
-                            buttonWidth: 100,
-                            buttonHeight: 30,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            buttonColor: Colors.white),
-                      ]),
                 ),
               ]))
         ]));

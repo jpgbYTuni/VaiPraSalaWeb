@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './titulo_tela.dart';
-import './card_sala.dart';
+import 'card_criar_sala.dart';
 
 class Ensalamento extends StatelessWidget {
   const Ensalamento({super.key});
@@ -9,7 +9,7 @@ class Ensalamento extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Ensalamento', actions: CardSala(),),
+      TituloTela(texto: 'Ensalamento', actions: CardCriarSala(),),
       Center(
         child: Column(
           children: [

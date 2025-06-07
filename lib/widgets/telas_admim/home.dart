@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './titulo_tela.dart';
-import './card_sala.dart';
+import 'card_criar_sala.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -9,7 +9,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Sala', actions: CardSala(),),
+      TituloTela(texto: 'Sala', actions: CardCriarSala(),),
       Center(
         child: Column(
           children: [

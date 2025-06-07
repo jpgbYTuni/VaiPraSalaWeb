@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './titulo_tela.dart';
-import './card_sala.dart';
+import 'card_criar_sala.dart';
 
 class CrudTurma extends StatelessWidget {
   const CrudTurma({super.key});
@@ -9,7 +9,7 @@ class CrudTurma extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Turmas', actions: CardSala(),),
+      TituloTela(texto: 'Turmas', actions: CardCriarSala(),),
       Center(
         child: Column(
           children: [

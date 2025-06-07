@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vaiprasala/widgets/telas_admim/card_apresentar_sala.dart';
 import './titulo_tela.dart';
-import './card_sala.dart';
+import 'card_criar_sala.dart';
 
 class CrudSala extends StatelessWidget {
   const CrudSala({super.key});
@@ -9,12 +10,12 @@ class CrudSala extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Salas', actions: CardSala()),
+      TituloTela(texto: 'Salas', actions: CardCriarSala()),
       Center(
         child: Column(
           children: [
             const SizedBox(height: 60),
-            CardSala(),
+            CardApresentarSala()
           ],
         ),
       ),
