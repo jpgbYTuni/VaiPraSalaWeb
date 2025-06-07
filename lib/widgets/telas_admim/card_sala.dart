@@ -16,11 +16,18 @@ class _CardSalaState extends State<CardSala> {
   bool _arProblema = false;
   bool _inspecaoProblema = false;
 
-  static const WidgetStateProperty<Icon> thumbIcon =
+  static const WidgetStateProperty<Icon> switchIcoErro =
       WidgetStateProperty<Icon>.fromMap(
     <WidgetStatesConstraint, Icon>{
       WidgetState.selected: Icon(Icons.warning_amber_rounded),
       WidgetState.any: Icon(Icons.check),
+    },
+  );
+  static const WidgetStateProperty<Icon> switchIco =
+      WidgetStateProperty<Icon>.fromMap(
+    <WidgetStatesConstraint, Icon>{
+      WidgetState.selected: Icon(Icons.check),
+      WidgetState.any: Icon(Icons.close),
     },
   );
 
@@ -239,8 +246,9 @@ class _CardSalaState extends State<CardSala> {
                                 ),
                               ])),
                           Switch(
+                            thumbIcon: switchIco,
                             value: _projetor,
-                            onChanged: (bool valor) {
+                            onChanged: (bool value) {
                               setState(() {
                                 _projetor = !_projetor;
                               });
@@ -271,7 +279,7 @@ class _CardSalaState extends State<CardSala> {
                                   horizontal: 5, vertical: 2),
                               child: Row(children: [
                                 Switch(
-                                  thumbIcon: thumbIcon,
+                                  thumbIcon: switchIcoErro,
                                   value: _projetorProblema,
                                   onChanged: (bool valor) {
                                     setState(() {
@@ -316,6 +324,7 @@ class _CardSalaState extends State<CardSala> {
                                 ),
                               ])),
                           Switch(
+                            thumbIcon: switchIco,
                             value: _tv,
                             onChanged: (bool valor) {
                               setState(() {
@@ -348,7 +357,7 @@ class _CardSalaState extends State<CardSala> {
                                   horizontal: 5, vertical: 2),
                               child: Row(children: [
                                 Switch(
-                                  thumbIcon: thumbIcon,
+                                  thumbIcon: switchIcoErro,
                                   value: _tvProblema,
                                   onChanged: (bool valor) {
                                     setState(() {
@@ -393,6 +402,7 @@ class _CardSalaState extends State<CardSala> {
                                 ),
                               ])),
                           Switch(
+                            thumbIcon: switchIco,
                             value: _ar,
                             onChanged: (bool valor) {
                               setState(() {
@@ -425,7 +435,7 @@ class _CardSalaState extends State<CardSala> {
                                   horizontal: 5, vertical: 2),
                               child: Row(children: [
                                 Switch(
-                                  thumbIcon: thumbIcon,
+                                  thumbIcon: switchIcoErro,
                                   value: _arProblema,
                                   onChanged: (bool valor) {
                                     setState(() {
@@ -467,7 +477,7 @@ class _CardSalaState extends State<CardSala> {
                                   horizontal: 5, vertical: 2),
                               child: Row(children: [
                                 Switch(
-                                  thumbIcon: thumbIcon,
+                                  thumbIcon: switchIcoErro,
                                   value: _inspecaoProblema,
                                   onChanged: (bool valor) {
                                     setState(() {
@@ -496,19 +506,7 @@ class _CardSalaState extends State<CardSala> {
                             buttonWidth: 100,
                             buttonHeight: 30,
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        title: Text('Popup'),
-                                        content: Text('Você clicou no botão.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text('Fechar'),
-                                          ),
-                                        ],
-                                      ));
+                              Navigator.of(context).pop();
                             },
                             buttonColor: Colors.white),
                         Button(
@@ -516,19 +514,7 @@ class _CardSalaState extends State<CardSala> {
                             buttonWidth: 100,
                             buttonHeight: 30,
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        title: Text('Popup'),
-                                        content: Text('Você clicou no botão.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text('Fechar'),
-                                          ),
-                                        ],
-                                      ));
+                              Navigator.of(context).pop();
                             },
                             buttonColor: Colors.white),
                         Button(
@@ -536,19 +522,7 @@ class _CardSalaState extends State<CardSala> {
                             buttonWidth: 100,
                             buttonHeight: 30,
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        title: Text('Popup'),
-                                        content: Text('Você clicou no botão.'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text('Fechar'),
-                                          ),
-                                        ],
-                                      ));
+                              Navigator.of(context).pop();
                             },
                             buttonColor: Colors.white),
                       ]),

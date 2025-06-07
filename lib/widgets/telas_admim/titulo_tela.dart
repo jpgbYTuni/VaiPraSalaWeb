@@ -24,6 +24,7 @@ class TituloTela extends StatelessWidget {
             onPressed: () {
               showDialog(
                   context: context,
+                  barrierDismissible: false,
                   builder: (context) => AlertDialog(
                         actions: [
                           CardSala()
