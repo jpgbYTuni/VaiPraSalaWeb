@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../button.dart';
+import '../../button.dart';
 
 class CardCriarSala extends StatefulWidget {
   const CardCriarSala({super.key});
@@ -31,6 +31,41 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     },
   );
 
+  Widget _compoDigitar(String Descricao, String exemplo) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      child: Row(
+        children: [
+          Text(
+            '$Descricao:',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 5),
+          Container(
+            constraints:
+                const BoxConstraints(minWidth: 20, maxWidth: 60, maxHeight: 30),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: exemplo,
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+                isDense: true,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,7 +80,6 @@ class _CardCriarSalaState extends State<CardCriarSala> {
               ),
               child: Column(children: [
                 Text(
-                  //titulo do card
                   'Criar Sala',
                   style: TextStyle(
                     color: Colors.white,
@@ -56,181 +90,36 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 5),
-                        child: Row(children: [
-                          Text(
-                            'Número: ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 20, maxWidth: 60, maxHeight: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '000',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ])),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 5),
-                        child: Row(children: [
-                          Text(
-                            'Bloco: ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 20, maxWidth: 60, maxHeight: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '000',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ])),
+                    _compoDigitar('Número', '000'),
+                    _compoDigitar('Bloco', 'abc'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Lugares: ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 20, maxWidth: 60, maxHeight: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '000',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      //bloco
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Lugares PCD: ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 20, maxWidth: 60, maxHeight: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '000',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      //bloco
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 5),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Computadores: ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 20, maxWidth: 60, maxHeight: 30),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: '000',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _compoDigitar('Lugares', '000'),
+                    _compoDigitar('Lugares PCD', '000'),
+                    _compoDigitar('Computadores', '000'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    // Projetor
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 8),
                       child: Column(
                         children: [
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 2),
                                   child: Text(
-                                    //titulo do card
                                     'Projetor ',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -239,12 +128,14 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                     ),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.aspect_ratio,
                                   color: Colors.white,
                                   size: 15,
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                           Switch(
                             thumbIcon: switchIco,
                             value: _projetor,
@@ -258,26 +149,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                             activeColor: const Color(0xffe7972a),
                             activeTrackColor: Colors.black26,
                           ),
-                          Row(children: [
-                            Text(
-                              //titulo do card
-                              'Erro ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            children: const [
+                              Text(
+                                'Erro ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.warning_amber_rounded,
-                              color: Colors.red,
-                              size: 15,
-                            ),
-                          ]),
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.red,
+                                size: 15,
+                              ),
+                            ],
+                          ),
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
                                 Switch(
                                   thumbIcon: switchIcoErro,
                                   value: _projetorProblema,
@@ -291,24 +184,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                   activeColor: Colors.red,
                                   activeTrackColor: Colors.red[700],
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+
+                    // Televisão
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 8),
                       child: Column(
                         children: [
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 2),
                                   child: Text(
-                                    //titulo do card
                                     'Televisão ',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -317,12 +214,14 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                     ),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.tv,
                                   color: Colors.white,
                                   size: 15,
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                           Switch(
                             thumbIcon: switchIco,
                             value: _tv,
@@ -336,26 +235,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                             activeColor: const Color(0xffe7972a),
                             activeTrackColor: Colors.black26,
                           ),
-                          Row(children: [
-                            Text(
-                              //titulo do card
-                              'Erro ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            children: const [
+                              Text(
+                                'Erro ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.warning_amber_rounded,
-                              color: Colors.red,
-                              size: 15,
-                            ),
-                          ]),
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.red,
+                                size: 15,
+                              ),
+                            ],
+                          ),
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
                                 Switch(
                                   thumbIcon: switchIcoErro,
                                   value: _tvProblema,
@@ -369,24 +270,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                   activeColor: Colors.red,
                                   activeTrackColor: Colors.red[700],
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+
+                    // Ar-condicionado
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 8),
                       child: Column(
                         children: [
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 5, vertical: 2),
                                   child: Text(
-                                    //titulo do card
                                     'Ar ',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -395,12 +300,14 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                     ),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.ac_unit,
                                   color: Colors.white,
                                   size: 15,
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                           Switch(
                             thumbIcon: switchIco,
                             value: _ar,
@@ -414,26 +321,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                             activeColor: const Color(0xffe7972a),
                             activeTrackColor: Colors.black26,
                           ),
-                          Row(children: [
-                            Text(
-                              //titulo do card
-                              'Erro ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            children: const [
+                              Text(
+                                'Erro ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.warning_amber_rounded,
-                              color: Colors.red,
-                              size: 15,
-                            ),
-                          ]),
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.red,
+                                size: 15,
+                              ),
+                            ],
+                          ),
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
                                 Switch(
                                   thumbIcon: switchIcoErro,
                                   value: _arProblema,
@@ -447,35 +356,41 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                   activeColor: Colors.red,
                                   activeTrackColor: Colors.red[700],
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+
+                    // Manutenção
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 8),
                       child: Column(
                         children: [
-                          Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Text(
-                                'manutenção',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )),
-                          Icon(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Text(
+                              'manutenção',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const Icon(
                             Icons.warning_amber_rounded,
                             color: Colors.red,
                             size: 15,
                           ),
                           Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 2),
-                              child: Row(children: [
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            child: Row(
+                              children: [
                                 Switch(
                                   thumbIcon: switchIcoErro,
                                   value: _inspecaoProblema,
@@ -489,7 +404,9 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                   activeColor: Colors.red,
                                   activeTrackColor: Colors.red[700],
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

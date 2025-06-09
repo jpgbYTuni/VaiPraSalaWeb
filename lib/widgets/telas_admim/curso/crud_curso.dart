@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import './titulo_tela.dart';
-import 'card_criar_sala.dart';
+import '../titulo_tela.dart';
+import '../sala/card_criar_sala.dart';
 
-class CrudUsuario extends StatelessWidget {
-  const CrudUsuario({super.key});
+class CrudCurso extends StatelessWidget {
+  const CrudCurso({super.key});
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Usuarios', actions: CardCriarSala(),),
+      TituloTela(texto: 'Cursos', actions: CardCriarSala(),),
       Center(
         child: Column(
           children: [

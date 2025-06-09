@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './titulo_tela.dart';
-import 'card_criar_sala.dart';
+import '../titulo_tela.dart';
+import '../sala/card_criar_sala.dart';
 
 class Ensalamento extends StatelessWidget {
   const Ensalamento({super.key});

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './tela_login.dart';
-import '../widgets/telas_admim/crud_curso.dart';
-import '../widgets/telas_admim/crud_sala.dart';
-import '../widgets/telas_admim/crud_turma.dart';
-import '../widgets/telas_admim/crud_usuario.dart';
-import '../widgets/telas_admim/ensalamento.dart';
-import '../widgets/telas_admim/home.dart';
+import '../widgets/telas_admim/curso/crud_curso.dart';
+import '../widgets/telas_admim/sala/crud_sala.dart';
+import '../widgets/telas_admim/turma/crud_turma.dart';
+import '../widgets/telas_admim/usuario/crud_usuario.dart';
+import '../widgets/telas_admim/ensalamento/ensalamento.dart';
+import '../widgets/telas_admim/home/home.dart';
 
 class TelaAdmim extends StatefulWidget {
   const TelaAdmim({super.key});

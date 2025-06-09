@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import './titulo_tela.dart';
+import 'package:vaiprasala/widgets/telas_admim/sala/card_apresentar_sala.dart';
+import '../titulo_tela.dart';
 import 'card_criar_sala.dart';
 
-class CrudCurso extends StatelessWidget {
-  const CrudCurso({super.key});
+class CrudSala extends StatelessWidget {
+  const CrudSala({super.key});
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Cursos', actions: CardCriarSala(),),
+      TituloTela(texto: 'Salas', actions: CardCriarSala()),
       Center(
         child: Column(
           children: [
             const SizedBox(height: 60),
+            CardApresentarSala()
           ],
         ),
       ),
