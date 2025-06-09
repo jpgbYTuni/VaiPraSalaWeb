@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../titulo_tela.dart';
-import '../sala/card_criar_sala.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -9,11 +7,25 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
-      TituloTela(texto: 'Sala', actions: CardCriarSala(),),
       Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const SizedBox(height: 60),
+            Container(
+              child: Column(
+                children: [
+                  Text(
+                    'Bem vindo ao',
+                    style: TextStyle(
+                      color: const Color(0xff51703c),
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Image.asset('images/logo.png', width: 500),
+                ],
+              ),
+            ),
           ],
         ),
       ),
