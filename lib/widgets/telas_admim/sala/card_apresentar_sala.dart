@@ -15,7 +15,7 @@ class _CardApresentarSalaState extends State<CardApresentarSala> {
   bool arProblema = false;
   bool inspecaoProblema = false;
 
-  Widget _printIco(dynamic ico, dynamic cor) {
+  Widget _printIco(dynamic icon, dynamic cor) {
     return Container(
       constraints:
           const BoxConstraints(minWidth: 30, maxWidth: 30, minHeight: 30),
@@ -24,7 +24,7 @@ class _CardApresentarSalaState extends State<CardApresentarSala> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Icon(
-        ico,
+        icon,
         color: cor,
         size: 20,
       ),
