@@ -17,7 +17,7 @@ class TelaAdmim extends StatefulWidget {
 }
 
 class _TelaAdmimState extends State<TelaAdmim> {
-  int _telaAtual = 1;
+  int _telaAtual = 3;
 
   get nome => null;
 
