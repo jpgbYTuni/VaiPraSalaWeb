@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:supabase_flutter/supabase_flutter.dart';
 import './card_criar_curso.dart';
 
 class CardApresentarCurso extends StatefulWidget {
   const CardApresentarCurso({super.key});
 
+=======
+
+class CardApresentarCurso extends StatefulWidget {
+  const CardApresentarCurso({super.key});
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
   @override
   _CardApresentarCursoState createState() => _CardApresentarCursoState();
 }
 
 class _CardApresentarCursoState extends State<CardApresentarCurso> {
+<<<<<<< HEAD
   final supabase = Supabase.instance.client;
   List<Map<String, dynamic>> cursos = [];
 
@@ -59,5 +66,35 @@ class _CardApresentarCursoState extends State<CardApresentarCurso> {
         );
       }).toList(),
     );
+=======
+  String nome = '';
+  String sigla = '';
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Column(children: [
+          Container(
+              constraints:
+                  BoxConstraints(minWidth: 600, maxWidth: 1000, minHeight: 50),
+              decoration: BoxDecoration(
+                color: Color(0xff7ecd73),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      //titulo do card
+                      '$nome - $sigla',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ]))
+        ]));
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
   }
 }

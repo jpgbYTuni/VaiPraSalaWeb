@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/services.dart';
+=======
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../button.dart';
 
@@ -43,6 +46,7 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     WidgetState.any: Icon(Icons.close),
   });
 
+<<<<<<< HEAD
   @override
   void initState() {
     super.initState();
@@ -112,6 +116,10 @@ class _CardCriarSalaState extends State<CardCriarSala> {
   Widget _compoDigitar(
       String descricao, String exemplo, TextEditingController controller,
       {bool apenasLetras = false}) {
+=======
+  Widget _compoDigitar(
+      String descricao, String exemplo, TextEditingController controller) {
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
     return Container(
       constraints: BoxConstraints(minWidth: 300, maxWidth: 300),
       margin: EdgeInsets.symmetric(vertical: 4),
@@ -128,6 +136,7 @@ class _CardCriarSalaState extends State<CardCriarSala> {
             height: 30,
             child: TextField(
               controller: controller,
+<<<<<<< HEAD
               readOnly: widget.sala != null &&
                   (descricao.contains('Número') || descricao.contains('Bloco')),
               keyboardType:
@@ -138,6 +147,9 @@ class _CardCriarSalaState extends State<CardCriarSala> {
               textCapitalization: apenasLetras
                   ? TextCapitalization.characters
                   : TextCapitalization.none,
+=======
+              keyboardType: TextInputType.number,
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
               decoration: InputDecoration(
                 labelText: exemplo,
                 border: OutlineInputBorder(),
@@ -172,7 +184,16 @@ class _CardCriarSalaState extends State<CardCriarSala> {
             children: [
               Text('$item ',
                   style: TextStyle(
+<<<<<<< HEAD
                       color: Colors.white, fontWeight: FontWeight.bold)),
+=======
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
               Icon(icon, color: Colors.white, size: 15),
               Switch(
                 thumbIcon: switchIco,
@@ -187,6 +208,7 @@ class _CardCriarSalaState extends State<CardCriarSala> {
           ),
           Row(
             children: [
+<<<<<<< HEAD
               Text('Erro ',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold)),
@@ -199,6 +221,28 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                 inactiveTrackColor: Colors.black26,
                 activeColor: Colors.red,
                 activeTrackColor: Colors.red[700],
+=======
+              Text(
+                'Erro ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Icon(Icons.warning_amber_rounded, color: Colors.red, size: 15),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                child: Switch(
+                  thumbIcon: switchIcoErro,
+                  value: problema,
+                  onChanged: onProblemaChanged,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.black26,
+                  activeColor: Colors.red,
+                  activeTrackColor: Colors.red[700],
+                ),
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
               ),
             ],
           ),
@@ -207,7 +251,11 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     );
   }
 
+<<<<<<< HEAD
   Future<void> _salvarOuEditarSala() async {
+=======
+  Future<void> _salvarSala() async {
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
     final dadosSala = {
       'Bloco': _blocoController.text,
       'Numero': _numeroController.text,
@@ -228,6 +276,7 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     };
 
     try {
+<<<<<<< HEAD
       if (_salaExiste || widget.sala != null) {
         await Supabase.instance.client
             .from('Salas')
@@ -273,6 +322,21 @@ class _CardCriarSalaState extends State<CardCriarSala> {
       if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Erro ao excluir sala')));
+=======
+      await Supabase.instance.client.from('Salas').insert(dadosSala);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sala criada com sucesso!')),
+        );
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      print('Erro ao salvar: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar sala')),
+        );
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
       }
     }
   }
@@ -329,6 +393,7 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+<<<<<<< HEAD
                     Text('Manutenção',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold)),
@@ -341,6 +406,66 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                       inactiveTrackColor: Colors.black26,
                       activeColor: Colors.red,
                       activeTrackColor: Colors.red[700],
+=======
+                    _compoDigitar('Carteiras', '000', _carteirasController),
+                    _compoDigitar(
+                        'Carteiras PCD', '000', _carteirasPcdController),
+                    _compoDigitar(
+                        'Computadores', '000', _computadoresController),
+                    _compoDigitar('Número', '000', _numeroController),
+                    _compoDigitar('Bloco', 'abc', _blocoController),
+                    _campoBool(
+                        'Projetor',
+                        Icons.aspect_ratio,
+                        _projetor,
+                        _projetorProblema,
+                        (v) => setState(() => _projetor = v),
+                        (v) => setState(() => _projetorProblema = v)),
+                    _campoBool(
+                        'Televisão',
+                        Icons.tv,
+                        _tv,
+                        _tvProblema,
+                        (v) => setState(() => _tv = v),
+                        (v) => setState(() => _tvProblema = v)),
+                    _campoBool(
+                        'Ar',
+                        Icons.ac_unit,
+                        _ar,
+                        _arProblema,
+                        (v) => setState(() => _ar = v),
+                        (v) => setState(() => _arProblema = v)),
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Manutenção',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(Icons.warning_amber_rounded,
+                              color: Colors.red, size: 15),
+                          SizedBox(width: 8),
+                          Switch(
+                            thumbIcon: switchIcoErro,
+                            value: _inspecaoProblema,
+                            onChanged: (v) =>
+                                setState(() => _inspecaoProblema = v),
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Colors.black26,
+                            activeColor: Colors.red,
+                            activeTrackColor: Colors.red[700],
+                          ),
+                        ],
+                      ),
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
                     ),
                   ],
                 ),
@@ -365,9 +490,29 @@ class _CardCriarSalaState extends State<CardCriarSala> {
                                 : 'Salvar'),
                         buttonWidth: 100,
                         buttonHeight: 30,
+<<<<<<< HEAD
                         onPressed: _carregandoExistencia
                             ? null
                             : () async => await _salvarOuEditarSala(),
+=======
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        buttonColor: Colors.white,
+                      ),
+                      Button(
+                        text: 'Editar',
+                        buttonWidth: 70,
+                        buttonHeight: 30,
+                        onPressed: () {},
+                        buttonColor: Colors.white,
+                      ),
+                      Button(
+                        text: 'Salvar',
+                        buttonWidth: 70,
+                        buttonHeight: 30,
+                        onPressed: _salvarSala,
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
                         buttonColor: Colors.white,
                       ),
                     ],

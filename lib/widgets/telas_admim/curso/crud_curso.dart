@@ -10,6 +10,7 @@ class CrudCurso extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: Stack(children: [
+<<<<<<< HEAD
       TituloTela(
         texto: 'Cursos',
         actions: CardCriarCurso(
@@ -19,6 +20,15 @@ class CrudCurso extends StatelessWidget {
       Center(
         child: Column(
           children: [const SizedBox(height: 60), CardApresentarCurso()],
+=======
+      TituloTela(texto: 'Cursos', actions: CardCriarCurso(),),
+      Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 60),
+            CardApresentarCurso()
+          ],
+>>>>>>> 8e81755e2713905280d4ed291293e8a2b0d602e2
         ),
       ),
     ]));
