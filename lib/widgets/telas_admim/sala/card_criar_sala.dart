@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../button.dart';
 
 class CardCriarSala extends StatefulWidget {
-  const CardCriarSala({super.key});
+  final VoidCallback? onCriada;
+  final Map<String, dynamic>? sala; // Suporte para edição
+
+  const CardCriarSala({super.key, this.onCriada, this.sala});
 
   @override
   _CardCriarSalaState createState() => _CardCriarSalaState();
 }
 
 class _CardCriarSalaState extends State<CardCriarSala> {
+  final _carteirasController = TextEditingController();
+  final _carteirasPcdController = TextEditingController();
+  final _computadoresController = TextEditingController();
+  final _numeroController = TextEditingController();
+  final _blocoController = TextEditingController();
+
   bool _projetor = false;
   bool _projetorProblema = false;
   bool _tv = false;
@@ -17,41 +28,116 @@ class _CardCriarSalaState extends State<CardCriarSala> {
   bool _arProblema = false;
   bool _inspecaoProblema = false;
 
+  bool _salaExiste = false;
+  bool _carregandoExistencia = false;
+
   static const WidgetStateProperty<Icon> switchIcoErro =
-      WidgetStateProperty<Icon>.fromMap(
-    <WidgetStatesConstraint, Icon>{
-      WidgetState.selected: Icon(Icons.warning_amber_rounded),
-      WidgetState.any: Icon(Icons.check),
-    },
-  );
+      WidgetStateProperty<Icon>.fromMap({
+    WidgetState.selected: Icon(Icons.warning_amber_rounded),
+    WidgetState.any: Icon(Icons.check),
+  });
 
   static const WidgetStateProperty<Icon> switchIco =
-      WidgetStateProperty<Icon>.fromMap(
-    <WidgetStatesConstraint, Icon>{
-      WidgetState.selected: Icon(Icons.check),
-      WidgetState.any: Icon(Icons.close),
-    },
-  );
+      WidgetStateProperty<Icon>.fromMap({
+    WidgetState.selected: Icon(Icons.check),
+    WidgetState.any: Icon(Icons.close),
+  });
 
-  Widget _compoDigitar(String descricao, String exemplo) {
+  @override
+  void initState() {
+    super.initState();
+
+    final sala = widget.sala;
+    if (sala != null) {
+      _numeroController.text = sala['Numero'] ?? '';
+      _blocoController.text = sala['Bloco'] ?? '';
+      _carteirasController.text = sala['Qt_cadeira']?.toString() ?? '';
+      _carteirasPcdController.text = sala['Qt_cadeira_pcd']?.toString() ?? '';
+      _computadoresController.text = sala['Qt_computador']?.toString() ?? '';
+      _tv = sala['Tv'] ?? false;
+      _tvProblema = sala['Defeito_tv'] ?? false;
+      _projetor = sala['Projetor'] ?? false;
+      _projetorProblema = sala['Defeito_projetor'] ?? false;
+      _ar = sala['Ar'] ?? false;
+      _arProblema = sala['Defeito_ar'] ?? false;
+      _inspecaoProblema = sala['Defeito_manutencao'] ?? false;
+    }
+
+    _numeroController.addListener(_verificarSalaExistente);
+    _blocoController.addListener(_verificarSalaExistente);
+  }
+
+  @override
+  void dispose() {
+    _numeroController.removeListener(_verificarSalaExistente);
+    _blocoController.removeListener(_verificarSalaExistente);
+    _carteirasController.dispose();
+    _carteirasPcdController.dispose();
+    _computadoresController.dispose();
+    _numeroController.dispose();
+    _blocoController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _verificarSalaExistente() async {
+    if (widget.sala != null) return;
+
+    final numero = _numeroController.text.trim();
+    final bloco = _blocoController.text.trim().toUpperCase();
+
+    if (numero.isEmpty || bloco.isEmpty) {
+      setState(() => _salaExiste = false);
+      return;
+    }
+
+    setState(() => _carregandoExistencia = true);
+
+    try {
+      final resposta = await Supabase.instance.client
+          .from('Salas')
+          .select()
+          .eq('Numero', numero)
+          .eq('Bloco', bloco);
+
+      setState(() {
+        _salaExiste = resposta.isNotEmpty;
+      });
+    } catch (_) {
+      setState(() => _salaExiste = false);
+    } finally {
+      setState(() => _carregandoExistencia = false);
+    }
+  }
+
+  Widget _compoDigitar(
+      String descricao, String exemplo, TextEditingController controller,
+      {bool apenasLetras = false}) {
     return Container(
-      constraints: BoxConstraints(minWidth: 300, maxWidth: 300, minHeight: 20),
+      constraints: BoxConstraints(minWidth: 300, maxWidth: 300),
+      margin: EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '$descricao:',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Container(
-            constraints:
-                BoxConstraints(minWidth: 100, maxWidth: 100, maxHeight: 30),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+          Text('$descricao:',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+          SizedBox(
+            width: 100,
+            height: 30,
             child: TextField(
+              controller: controller,
+              readOnly: widget.sala != null &&
+                  (descricao.contains('Número') || descricao.contains('Bloco')),
+              keyboardType:
+                  apenasLetras ? TextInputType.text : TextInputType.number,
+              inputFormatters: apenasLetras
+                  ? [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))]
+                  : [],
+              textCapitalization: apenasLetras
+                  ? TextCapitalization.characters
+                  : TextCapitalization.none,
               decoration: InputDecoration(
                 labelText: exemplo,
                 border: OutlineInputBorder(),
@@ -77,28 +163,17 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     void Function(bool) onProblemaChanged,
   ) {
     return Container(
-      constraints: BoxConstraints(minWidth: 300, maxWidth: 300, minHeight: 20),
+      constraints: BoxConstraints(minWidth: 300, maxWidth: 300),
+      margin: EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                child: Text(
-                  '$item ',
+              Text('$item ',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Icon(
-                icon,
-                color: Colors.white,
-                size: 15,
-              ),
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              Icon(icon, color: Colors.white, size: 15),
               Switch(
                 thumbIcon: switchIco,
                 value: existencia,
@@ -111,32 +186,19 @@ class _CardCriarSalaState extends State<CardCriarSala> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                'Erro ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Icon(
-                Icons.warning_amber_rounded,
-                color: Colors.red,
-                size: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                child: Switch(
-                  thumbIcon: switchIcoErro,
-                  value: problema,
-                  onChanged: onProblemaChanged,
-                  inactiveThumbColor: Colors.white,
-                  inactiveTrackColor: Colors.black26,
-                  activeColor: Colors.red,
-                  activeTrackColor: Colors.red[700],
-                ),
+              Text('Erro ',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold)),
+              Icon(Icons.warning_amber_rounded, color: Colors.red, size: 15),
+              Switch(
+                thumbIcon: switchIcoErro,
+                value: problema,
+                onChanged: onProblemaChanged,
+                inactiveThumbColor: Colors.white,
+                inactiveTrackColor: Colors.black26,
+                activeColor: Colors.red,
+                activeTrackColor: Colors.red[700],
               ),
             ],
           ),
@@ -145,150 +207,183 @@ class _CardCriarSalaState extends State<CardCriarSala> {
     );
   }
 
+  Future<void> _salvarOuEditarSala() async {
+    final dadosSala = {
+      'Bloco': _blocoController.text,
+      'Numero': _numeroController.text,
+      'Qt_cadeira': int.tryParse(_carteirasController.text) ?? 0,
+      'Qt_cadeira_pcd': _carteirasPcdController.text.isNotEmpty
+          ? int.tryParse(_carteirasPcdController.text)
+          : null,
+      'Qt_computador': _computadoresController.text.isNotEmpty
+          ? int.tryParse(_computadoresController.text)
+          : null,
+      'Tv': _tv,
+      'Projetor': _projetor,
+      'Ar': _ar,
+      'Defeito_tv': _tvProblema,
+      'Defeito_projetor': _projetorProblema,
+      'Defeito_ar': _arProblema,
+      'Defeito_manutencao': _inspecaoProblema,
+    };
+
+    try {
+      if (_salaExiste || widget.sala != null) {
+        await Supabase.instance.client
+            .from('Salas')
+            .update(dadosSala)
+            .eq('Numero', _numeroController.text)
+            .eq('Bloco', _blocoController.text);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Sala atualizada com sucesso!')));
+        }
+      } else {
+        await Supabase.instance.client.from('Salas').insert(dadosSala);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Sala criada com sucesso!')));
+        }
+      }
+      if (widget.onCriada != null) widget.onCriada!();
+      Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao salvar ou editar sala')));
+      }
+    }
+  }
+
+  Future<void> _excluirSala() async {
+    if (widget.sala == null) return;
+    try {
+      await Supabase.instance.client
+          .from('Salas')
+          .delete()
+          .eq('Numero', _numeroController.text)
+          .eq('Bloco', _blocoController.text);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sala excluída com sucesso!')));
+      }
+      if (widget.onCriada != null) widget.onCriada!();
+      Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Erro ao excluir sala')));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
+      child: Stack(
         children: [
           Container(
-            constraints:
-                BoxConstraints(minWidth: 400, maxWidth: 500, minHeight: 200),
+            constraints: BoxConstraints(minWidth: 400, maxWidth: 500),
             decoration: BoxDecoration(
               color: Color(0xff7ecd73),
               borderRadius: BorderRadius.circular(15),
             ),
+            padding: EdgeInsets.only(top: 30, bottom: 15),
             child: Column(
               children: [
                 Text(
-                  'Criar Sala',
+                  widget.sala != null ? 'Editar Sala' : 'Criar Sala',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
                 ),
-                Column(
+                _compoDigitar('Número da Sala', '000', _numeroController),
+                _compoDigitar('Bloco', 'abc', _blocoController,
+                    apenasLetras: true),
+                _compoDigitar('Carteiras', '000', _carteirasController),
+                _compoDigitar('Carteiras PCD', '000', _carteirasPcdController),
+                _compoDigitar('Computadores', '000', _computadoresController),
+                _campoBool(
+                    'Projetor',
+                    Icons.aspect_ratio,
+                    _projetor,
+                    _projetorProblema,
+                    (v) => setState(() => _projetor = v),
+                    (v) => setState(() => _projetorProblema = v)),
+                _campoBool(
+                    'Televisão',
+                    Icons.tv,
+                    _tv,
+                    _tvProblema,
+                    (v) => setState(() => _tv = v),
+                    (v) => setState(() => _tvProblema = v)),
+                _campoBool(
+                    'Ar',
+                    Icons.ac_unit,
+                    _ar,
+                    _arProblema,
+                    (v) => setState(() => _ar = v),
+                    (v) => setState(() => _arProblema = v)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: [
-                        _compoDigitar('Lugares', '000'),
-                        _compoDigitar('Lugares PCD', '000'),
-                        _compoDigitar('Computadores', '000'),
-                        _compoDigitar('Número', '000'),
-                        _compoDigitar('Bloco', 'abc'),
-                      ],
+                    Text('Manutenção',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold)),
+                    Icon(Icons.warning_amber_rounded,
+                        color: Colors.red, size: 15),
+                    Switch(
+                      value: _inspecaoProblema,
+                      onChanged: (v) => setState(() => _inspecaoProblema = v),
+                      inactiveThumbColor: Colors.white,
+                      inactiveTrackColor: Colors.black26,
+                      activeColor: Colors.red,
+                      activeTrackColor: Colors.red[700],
                     ),
-                    Column(
-                      children: [
-                        _campoBool(
-                          'Projetor',
-                          Icons.aspect_ratio,
-                          _projetor,
-                          _projetorProblema,
-                          (valor) => setState(() => _projetor = valor),
-                          (valor) => setState(() => _projetorProblema = valor),
-                        ),
-                        _campoBool(
-                          'Televisão',
-                          Icons.tv,
-                          _tv,
-                          _tvProblema,
-                          (valor) => setState(() => _tv = valor),
-                          (valor) => setState(() => _tvProblema = valor),
-                        ),
-                        _campoBool(
-                          'Ar',
-                          Icons.ac_unit,
-                          _ar,
-                          _arProblema,
-                          (valor) => setState(() => _ar = valor),
-                          (valor) => setState(() => _arProblema = valor),
-                        ),
-                        Container(
-                          constraints: BoxConstraints(
-                              minWidth: 300, maxWidth: 300, minHeight: 20),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 2),
-                                child: Text(
-                                  'manutenção',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.warning_amber_rounded,
-                                color: Colors.red,
-                                size: 15,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 2),
-                                child: Switch(
-                                  thumbIcon: switchIcoErro,
-                                  value: _inspecaoProblema,
-                                  onChanged: (bool valor) {
-                                    setState(() {
-                                      _inspecaoProblema = valor;
-                                    });
-                                  },
-                                  inactiveThumbColor: Colors.white,
-                                  inactiveTrackColor: Colors.black26,
-                                  activeColor: Colors.red,
-                                  activeTrackColor: Colors.red[700],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    // Manutenção
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  padding: EdgeInsets.only(top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      if (widget.sala != null)
+                        Button(
+                          text: 'Excluir',
+                          buttonWidth: 100,
+                          buttonHeight: 30,
+                          onPressed: () async => await _excluirSala(),
+                          buttonColor: Colors.white,
+                        ),
                       Button(
-                        text: 'Excluir',
-                        buttonWidth: 70,
+                        text: _carregandoExistencia
+                            ? '...'
+                            : (_salaExiste || widget.sala != null
+                                ? 'Editar'
+                                : 'Salvar'),
+                        buttonWidth: 100,
                         buttonHeight: 30,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        buttonColor: Colors.white,
-                      ),
-                      Button(
-                        text: 'Editar',
-                        buttonWidth: 70,
-                        buttonHeight: 30,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        buttonColor: Colors.white,
-                      ),
-                      Button(
-                        text: 'Salvar',
-                        buttonWidth: 70,
-                        buttonHeight: 30,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                        onPressed: _carregandoExistencia
+                            ? null
+                            : () async => await _salvarOuEditarSala(),
                         buttonColor: Colors.white,
                       ),
                     ],
                   ),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            top: 5,
+            right: 5,
+            child: IconButton(
+              icon: Icon(Icons.close),
+              color: Colors.white,
+              onPressed: () => Navigator.of(context).pop(),
+              tooltip: 'Fechar',
             ),
           ),
         ],

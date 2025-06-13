@@ -4,31 +4,31 @@ class Button extends StatelessWidget {
   final String text;
   final double buttonWidth;
   final double buttonHeight;
-  final VoidCallback onPressed;
+  final Future<void> Function()? onPressed;
   final Color buttonColor;
 
   const Button({
-    super.key,
+    Key? key,
     required this.text,
     required this.buttonWidth,
     required this.buttonHeight,
     required this.onPressed,
     required this.buttonColor,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        fixedSize: WidgetStatePropertyAll(Size(buttonWidth, buttonHeight)),
-        backgroundColor: WidgetStatePropertyAll(buttonColor),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style:  TextStyle(
-          color: Color(0xffe7972a),
-          fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: buttonWidth,
+      height: buttonHeight,
+      child: ElevatedButton(
+        onPressed: onPressed != null ? () => onPressed!() : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: buttonColor,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(color: Colors.black),
         ),
       ),
     );

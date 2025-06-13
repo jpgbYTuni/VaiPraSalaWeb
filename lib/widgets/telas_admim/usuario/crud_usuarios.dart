@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../titulo_tela.dart';
-import './card_criar_turma.dart';
-import './card_apresentar_turma.dart';
+import './card_criar_usuarios.dart';
+import './card_apresentar_usuarios.dart';
 
-class CrudTurma extends StatelessWidget {
-  const CrudTurma({super.key});
+class CrudUsuarios extends StatelessWidget {
+  const CrudUsuarios({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +12,14 @@ class CrudTurma extends StatelessWidget {
       child: Stack(
         children: [
           TituloTela(
-            texto: 'Turmas',
-            actions: CardCriarTurma(turma: {}),
+            texto: 'Usuários',
+            actions: CardCriarUsuario(usuario: {}),
           ),
           Center(
             child: Column(
               children: const [
                 SizedBox(height: 60),
-                CardApresentarTurma(),
+                CardApresentarUsuario(),
               ],
             ),
           ),

@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import '../titulo_tela.dart';
-import '../sala/card_criar_sala.dart';
 
 class Ensalamento extends StatelessWidget {
   const Ensalamento({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Stack(children: [
-      TituloTela(texto: 'Ensalamento', actions: CardCriarSala(),),
-      Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 60),
-          ],
-        ),
-      ),
-    ]));
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            'Em Manutenção, tivemos problemas tecnicos',
+            style: TextStyle(
+              color: const Color(0xff51703c),
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ]));
   }
 }

@@ -5,7 +5,7 @@ import './tela_login.dart';
 import '../widgets/telas_admim/curso/crud_curso.dart';
 import '../widgets/telas_admim/sala/crud_sala.dart';
 import '../widgets/telas_admim/turma/crud_turma.dart';
-import '../widgets/telas_admim/usuario/crud_usuario.dart';
+import '../widgets/telas_admim/usuario/crud_usuarios.dart';
 import '../widgets/telas_admim/ensalamento/ensalamento.dart';
 import '../widgets/telas_admim/home/home.dart';
 
@@ -17,13 +17,13 @@ class TelaAdmim extends StatefulWidget {
 }
 
 class _TelaAdmimState extends State<TelaAdmim> {
-  int _telaAtual = 1;
+  int _telaAtual = 3;
 
   get nome => null;
 
   Future<void> _logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Limpa nome salvo
+    await prefs.clear();
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const TelaLogin()),
@@ -42,7 +42,7 @@ class _TelaAdmimState extends State<TelaAdmim> {
       case 3:
         return CrudCurso();
       case 4:
-        return CrudUsuario();
+        return CrudUsuarios();
       case 5:
         return Ensalamento();
       default:
