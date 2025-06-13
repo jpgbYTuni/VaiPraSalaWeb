@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import './card_criar_turma.dart';
 
 class CardApresentarTurma extends StatefulWidget {
   const CardApresentarTurma({super.key});

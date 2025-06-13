@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import './card_criar_usuarios.dart';
 
 class CardApresentarUsuario extends StatefulWidget {
   const CardApresentarUsuario({super.key});
