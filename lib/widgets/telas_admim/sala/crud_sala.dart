@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import '../titulo_tela.dart';
+import './card_criar_sala.dart';
+import './card_apresentar_sala.dart';
 
 class CrudSala extends StatelessWidget {
   const CrudSala({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            'Em Manutenção, tivemos problemas tecnicos',
-            style: TextStyle(
-              color: const Color(0xff51703c),
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+    return Expanded(
+      child: Stack(
+        children: [
+          TituloTela(
+            texto: 'Salas',
+            actions: CardCriarSala(sala: {}),
+          ),
+          Center(
+            child: Column(
+              children: const [
+                SizedBox(height: 60),
+                CardApresentarSala(),
+              ],
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }
