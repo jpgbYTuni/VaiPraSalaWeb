@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../button.dart';
 
 class CardCriarSala extends StatefulWidget {
-  final Map<String, dynamic> sala;
-  const CardCriarSala({super.key, required this.sala});
+  final Map<String, dynamic> salas;
+
+  const CardCriarSala({super.key, required this.salas});
 
   @override
   State<CardCriarSala> createState() => _CardCriarSalaState();
@@ -14,96 +16,216 @@ class _CardCriarSalaState extends State<CardCriarSala> {
 
   final TextEditingController blocoController = TextEditingController();
   final TextEditingController numeroController = TextEditingController();
-  final TextEditingController cadeirasController = TextEditingController();
-  final TextEditingController computadoresController = TextEditingController();
-  String pcdSelecionado = 'false';
+  final TextEditingController qtcadeiraController = TextEditingController();
+  final TextEditingController qtcadeirapcdController = TextEditingController();
+  final TextEditingController qtcomputadoresController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.sala.isNotEmpty) {
-      blocoController.text = widget.sala['Bloco'] ?? '';
-      numeroController.text = widget.sala['Numero'].toString();
-      cadeirasController.text = widget.sala['Cadeiras'].toString();
-      computadoresController.text = widget.sala['Computadores'].toString();
-      pcdSelecionado = widget.sala['PCD'].toString();
+  bool existe_tv = false;
+  bool existe_Projetor = false;
+  bool existe_ar = false;
+  bool problema_tv = false;
+  bool problema_projetor = false;
+  bool problema_ar = false;
+  bool problema_manutencao = false;
+
+  Future<void> salvarSalas() async {
+    final bloco = blocoController.text.trim();
+    final numero = int.tryParse(numeroController.text.trim());
+    final qtcadeira = int.tryParse(qtcadeiraController.text.trim());
+    final qtcadeirapcd = int.tryParse(qtcadeirapcdController.text.trim());
+    final qtcomputadores = int.tryParse(qtcomputadoresController.text.trim());
+
+    if (bloco.isEmpty || numero == null || qtcadeira == null) {
+      _mostrarErro('Preencha todos os campos corretamente.');
+      return;
+    }
+
+    try {
+      await supabase.from('Salas').insert({
+        'Bloco': bloco,
+        'Numero': numero,
+        'Qt_cadeira': qtcadeira,
+        'Qt_cadeira_pcd': qtcadeirapcd,
+        'Qt_computador': qtcomputadores,
+        'Tv': existe_tv,
+        'Projetor': existe_Projetor,
+        'Ar': existe_ar,
+        'Defeito_tv': problema_tv,
+        'Defeito_projetor': problema_projetor,
+        'Defeito_ar': problema_ar,
+        'Defeito_manutencao': problema_manutencao,
+      });
+      Navigator.of(context).pop(true);
+    } catch (e) {
+      _mostrarErro('Erro ao salvar: $e');
     }
   }
 
-  Future<void> salvarSala() async {
-    final salaData = {
-      'Bloco': blocoController.text,
-      'Numero': int.tryParse(numeroController.text) ?? 0,
-      'Cadeiras': int.tryParse(cadeirasController.text) ?? 0,
-      'Computadores': int.tryParse(computadoresController.text) ?? 0,
-      'PCD': pcdSelecionado == 'true'
-    };
-
-    if (widget.sala.isEmpty) {
-      await supabase.from('Salas').insert(salaData);
-    } else {
-      await supabase.from('Salas').update(salaData).eq('id', widget.sala['id']);
-    }
-
-    if (mounted) Navigator.of(context).pop();
+  void _mostrarErro(String mensagem) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(mensagem)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: blocoController,
-              decoration: const InputDecoration(labelText: 'Bloco'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          Container(
+            constraints: const BoxConstraints(
+                minWidth: 400, maxWidth: 500, minHeight: 300),
+            decoration: BoxDecoration(
+              color: const Color(0xff7ecd73),
+              borderRadius: BorderRadius.circular(15),
             ),
-            TextFormField(
-              controller: numeroController,
-              decoration: const InputDecoration(labelText: 'Número'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: cadeirasController,
-              decoration: const InputDecoration(labelText: 'Cadeiras'),
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              controller: computadoresController,
-              decoration: const InputDecoration(labelText: 'Computadores'),
-              keyboardType: TextInputType.number,
-            ),
-            DropdownButtonFormField(
-              value: pcdSelecionado,
-              items: const [
-                DropdownMenuItem(value: 'true', child: Text('Sim')),
-                DropdownMenuItem(value: 'false', child: Text('Não')),
-              ],
-              onChanged: (value) => setState(() => pcdSelecionado = value!),
-              decoration: const InputDecoration(labelText: 'Acessível (PCD)'),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: salvarSala, 
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff7ecd73),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+            child: Column(
+              children: [
+                // Cabeçalho
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(width: 40),
+                    const Text(
+                      'Criar Sala',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+                // Campos
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    children: [
+                      _campoTexto('Bloco', blocoController),
+                      _campoTexto('Numero', numeroController),
+                      _campoTexto('Quantidade de cadeiras', qtcadeiraController),
+                      _campoTexto('Quantidade de cadeiras PCD', qtcadeirapcdController),
+                      _campoTexto('Quantidade de computadores', qtcomputadoresController),
+                      _campoBool(
+                        'TV',
+                        () => existe_tv,
+                        (val) => existe_tv = val,
+                        () => problema_tv,
+                        (val) => problema_tv = val,
+                      ),
+                      _campoBool(
+                        'Projetor',
+                        () => existe_Projetor,
+                        (val) => existe_Projetor = val,
+                        () => problema_projetor,
+                        (val) => problema_projetor = val,
+                      ),
+                      _campoBool(
+                        'Ar',
+                        () => existe_ar,
+                        (val) => existe_ar = val,
+                        () => problema_ar,
+                        (val) => problema_ar = val,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Em manutenção:',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                          Checkbox(
+                            value: problema_manutencao,
+                            onChanged: (value) => setState(() =>
+                                problema_manutencao = value ?? false),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                child: const Text(
-                  'Salvar Sala',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                // Botão
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Button(
+                    text: 'Salvar',
+                    buttonWidth: 90,
+                    buttonHeight: 35,
+                    onPressed: salvarSalas,
+                    buttonColor: Colors.white,
+                  ),
                 ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _campoBool(
+    String objeto,
+    bool Function() getExiste,
+    void Function(bool) setExiste,
+    bool Function() getProblema,
+    void Function(bool) setProblema,
+  ) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Row(
+        children: [
+          Text('Possui $objeto:',
+              style: TextStyle(color: Colors.white, fontSize: 16)),
+          Checkbox(
+            value: getExiste(),
+            onChanged: (value) => setState(() => setExiste(value ?? false)),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Text('Problema $objeto:',
+              style: TextStyle(color: Colors.white, fontSize: 16)),
+          Checkbox(
+            value: getProblema(),
+            onChanged: (value) => setState(() => setProblema(value ?? false)),
+          ),
+        ],
+      ),
+    ]);
+  }
+
+  Widget _campoTexto(String label, TextEditingController controller) {
+    return Container(
+      constraints: const BoxConstraints(minWidth: 300, maxWidth: 300),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$label:',
+            style: const TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          SizedBox(
+            height: 35,
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+                isDense: true,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

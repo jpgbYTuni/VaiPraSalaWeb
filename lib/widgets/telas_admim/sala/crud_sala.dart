@@ -13,7 +13,7 @@ class CrudSala extends StatelessWidget {
         children: [
           TituloTela(
             texto: 'Salas',
-            actions: CardCriarSala(sala: {}),
+            actions: CardCriarSala(salas: {}),
           ),
           Center(
             child: Column(

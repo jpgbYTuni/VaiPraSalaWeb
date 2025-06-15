@@ -37,9 +37,12 @@ class _CardApresentarTurmaState extends State<CardApresentarTurma> {
         final pcd = turma['Pcd'] == true ? 'Sim' : 'Não';
         final qtPcd = turma['Qt_pcd']?.toString() ?? '';
 
-        final label = incremento.toLowerCase() == 'unico'
-            ? 'Curso $idCurso - $periodo/$semestre'
-            : 'Curso $idCurso - $periodo/$semestre$incremento';
+        String label;
+        if (incremento == 'Único') {
+          label = 'Curso $idCurso - $periodo/$semestre';
+        } else {
+          label = 'Curso $idCurso - $periodo/$semestre$incremento';
+        }
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
