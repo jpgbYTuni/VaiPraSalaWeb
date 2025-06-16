@@ -6,7 +6,7 @@ import '../widgets/telas_admim/curso/crud_curso.dart';
 import '../widgets/telas_admim/sala/crud_sala.dart';
 import '../widgets/telas_admim/turma/crud_turma.dart';
 import '../widgets/telas_admim/usuario/crud_usuarios.dart';
-import '../widgets/telas_admim/ensalamento/ensalamento.dart';
+import '../widgets/telas_admim/ensalamento/crud_ensalamento.dart';
 import '../widgets/telas_admim/home/home.dart';
 
 class TelaAdmim extends StatefulWidget {
